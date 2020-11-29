@@ -9,7 +9,7 @@ onready var jump_timer = self.get_node("Timer")
 var move_speed = 25.0
 var movement = Vector3(0.0, 0.0, 0.0)
 
-var rotation_speed = 2.5
+var rotation_speed = 2.0
 var player_rotation = 0.0
 
 var is_jumping = false
@@ -61,10 +61,18 @@ func _physics_process(delta):
 		jump_timer.stop()
 		is_jumping = false
 	
+	# finally move the player
 	velocity = self.move_and_slide(velocity, self.transform.basis.y)
 	
 	# rotate
-	if (self.is_on_floor()):
-		self.rotate(self.transform.basis.y, player_rotation * delta)
-	else:
-		self.rotate(self.transform.basis.y, player_rotation * 0.1 * delta)
+	self.rotate(self.transform.basis.y, player_rotation * delta)
+	#if (self.is_on_floor()):
+	#	self.rotate(self.transform.basis.y, player_rotation * delta)
+	#else:
+	#	self.rotate(self.transform.basis.y, player_rotation * 0.1 * delta)
+	
+	# check collision
+	for i in range(0, self.get_slide_count()):
+		var collider = self.get_slide_collision(i).collider
+		if (collider != moon):
+			collider.emit_signal("kicked_by_player", collider)

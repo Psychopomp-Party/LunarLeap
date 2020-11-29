@@ -1,8 +1,23 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://game/meshes/sphere.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://game/scripts/Player.gd" type="Script" id=2]
 [ext_resource path="res://game/scripts/EnemySpawner.gd" type="Script" id=3]
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Spatial
+
+var elapsed_time = 0.0
+
+signal elapsed_time(delta)
+
+func _ready():
+	pass
+
+func _process(delta):
+	elapsed_time += delta
+	emit_signal(\"elapsed_time\", elapsed_time)
+"
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.0
@@ -16,6 +31,7 @@ margin = 1.0
 [sub_resource type="SphereShape" id=4]
 
 [node name="Spatial" type="Spatial"]
+script = SubResource( 5 )
 
 [node name="Moon" type="StaticBody" parent="."]
 transform = Transform( 33, 0, 0, 0, 33, 0, 0, 0, 33, 0, 0, 0 )
@@ -67,4 +83,6 @@ script = ExtResource( 3 )
 
 [node name="Timer" type="Timer" parent="Enemies"]
 process_mode = 0
+
+[node name="Timer" type="Timer" parent="."]
 [connection signal="timeout" from="Enemies/Timer" to="Enemies" method="_on_timer_timeout"]
