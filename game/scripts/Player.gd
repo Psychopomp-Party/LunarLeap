@@ -1,8 +1,9 @@
 extends KinematicBody
 
+onready var gravity_area = self.get_parent().get_node("GravityModifier")
 onready var camera = self.get_node("Camera")
 onready var moon = self.get_parent().get_node("Moon")
-onready var moon_direction = self.translation.direction_to(moon.translation)
+onready var moon_direction = self.global_transform.origin.direction_to(moon.global_transform.origin)
 
 # movement variables
 var should_move_left = false
@@ -11,6 +12,7 @@ var should_move_forward = false
 var should_move_backward = false
 
 func _ready():
+	self.translation
 	pass
 
 func _physics_process(delta):
@@ -26,7 +28,7 @@ func _physics_process(delta):
 	#if (self.rotation != old_rotation):
 	#	print("Pointed rotation: ", (moon.translation - self.translation).normalized())
 	
-	moon_direction = self.translation.direction_to(moon.translation)
+	#moon_direction = self.translation.direction_to(moon.to_global(moon.translation))
 	#self.transform.basis.y = -moon_direction
 	
 	#if (moon_direction.cross(self.transform.basis.y).normalized() != Vector3(0, 0, 0)):
@@ -37,27 +39,26 @@ func _physics_process(delta):
 	#self.transform = self.transform.orthonormalized()
 	
 	# 'gravity'
-	self.move_and_collide((moon.translation - self.translation).normalized(), true, true, false)
+	moon_direction = self.global_transform.origin.direction_to(moon.global_transform.origin)
+	self.move_and_collide(moon_direction * delta * gravity_area.gravity, true, true, false)
 	#self.rotate(self.transform.basis.x, moon_direction.x)
 	
 	# keep updating movement while button is pressed
 	if (should_move_left):
-		print(">  ", self.rotation.dot(moon_direction))
-		print(">> ", self.transform.basis.y.cross(moon_direction).normalized())
 		#self.move_and_slide(Vector3(-10, 0, 0), -moon_direction, false, 8, 0.667, true)
 		self.rotate(self.transform.basis.y, 0.015)
 	if (should_move_right):
-		print(">  ", self.rotation.dot(moon_direction))
-		print(">> ", self.rotation.cross(moon_direction).normalized())
 		#self.move_and_slide(Vector3(10, 0, 0), -moon_direction, false, 8, 0.667, true)
 		self.rotate(self.transform.basis.y, -0.015)
 	if (should_move_forward):
-		print(">  ", self.rotation.dot(moon_direction))
-		print(">> ", self.rotation.cross(moon_direction).normalized())
-		self.move_and_slide(-self.transform.basis.z * 10, -moon_direction, false, 8, 0.667, true)
+		print("down: ", -self.transform.basis.y)
+		print("moon: ", moon_direction)
+		print("diff: ", (-self.transform.basis.y).angle_to(moon_direction))
+		self.move_and_slide(-self.global_transform.basis.z * 10, self.global_transform.basis.y, false, 8, 0.667, true)
+		moon_direction = self.global_transform.origin.direction_to(moon.global_transform.origin)
+		self.rotate(self.transform.basis.x, -(-self.transform.basis.y).angle_to(moon_direction))
+		self.transform = self.transform.orthonormalized()
 	if (should_move_backward):
-		print(">  ", self.rotation.dot(moon_direction))
-		print(">> ", self.rotation.cross(moon_direction).normalized())
 		self.move_and_slide(self.transform.basis.z * 10, -moon_direction, false, 8, 0.667, true)
 	
 	# set whether the player should move when a button is pressed

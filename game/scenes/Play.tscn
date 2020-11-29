@@ -51,6 +51,7 @@ transform = Transform( 1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 8, 5 )
 space_override = 3
 gravity_point = true
 gravity_vec = Vector3( 0, 0, 0 )
+gravity = 2.0
 priority = 100.0
 
 [node name="CollisionShape" type="CollisionShape" parent="GravityModifier"]
