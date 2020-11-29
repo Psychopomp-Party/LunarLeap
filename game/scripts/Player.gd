@@ -17,11 +17,11 @@ var movement = Vector3(0.0, 0.0, 0.0)
 var rotation_speed = 2.0
 var player_rotation = 0.0
 
-var is_walking = false
 var is_jumping = false
 
 func _ready():
 	self.add_to_group("player")
+	animator.connect("animation_finished", self, "_on_animation_finished")
 	camera.global_transform.basis.z = -camera.global_transform.origin.direction_to(self.global_transform.origin)
 
 func _process(delta):
@@ -31,14 +31,15 @@ func _process(delta):
 	# walking
 	if (Input.is_action_pressed("player_move_forward")):
 		movement += -self.transform.basis.z * move_speed
-		is_walking = true
 	if (Input.is_action_pressed("player_move_backward")):
 		movement += self.transform.basis.z * move_speed
-		is_walking = true
 	if (Input.is_action_just_released("player_move_forward") || Input.is_action_just_released("player_move_backward")):
 		animator.stop(true)
 		animator.seek(0, true)
-		is_walking = false
+	
+	# indicate if walking animation should play
+	if (!is_jumping && movement != Vector3(0.0, 0.0, 0.0)):
+		animator.play("Walk")
 	
 	# jumping
 	if (Input.is_action_pressed("player_move_jump")):
@@ -47,8 +48,7 @@ func _process(delta):
 		if (jump_timer.is_stopped() && !is_jumping):
 			jump_timer.start()
 			is_jumping = true
-		#elif (time_left < wait_time * 0.5 && time_left > 0.0 && is_jumping):
-		#	movement += self.transform.basis.y * gravity_area.gravity * 4.0
+			animator.play("Jump")
 		elif (time_left > 0.0 && is_jumping):
 			movement += self.transform.basis.y * gravity_area.gravity * 4.0
 	
@@ -57,12 +57,6 @@ func _process(delta):
 		player_rotation += rotation_speed
 	if (Input.is_action_pressed("player_move_right")):
 		player_rotation += -rotation_speed
-	
-	# trigger animations
-	if (is_jumping):
-		animator.play("Jump", -1, 1.2)
-	elif (is_walking):
-		animator.play("WalkCycle", -1, 2.0)
 
 func _physics_process(delta):
 	
@@ -80,7 +74,6 @@ func _physics_process(delta):
 	
 	# apply gravity and enable/disable jumping
 	var velocity = movement
-	#velocity += self.transform.origin.direction_to(moon.transform.origin) * gravity_area.gravity
 	if (is_jumping && self.is_on_floor()):
 		jump_timer.stop()
 		is_jumping = false
@@ -92,10 +85,6 @@ func _physics_process(delta):
 	
 	# rotate
 	self.rotate(self.transform.basis.y, player_rotation * delta)
-	#if (is_jumping):
-	#	self.rotate(self.transform.basis.y, player_rotation * 0.5 * delta)
-	#else:
-	#	self.rotate(self.transform.basis.y, player_rotation * delta)
 	
 	# check collision
 	for i in range(0, self.get_slide_count()):
@@ -105,8 +94,18 @@ func _physics_process(delta):
 		elif (collider.is_in_group("projectile")):
 			print("hit by projectile!")
 
+func _on_animation_finished(name):
+	match name:
+		"Walk":
+			pass
+		"Jump":
+			pass
+		"Die":
+			self.emit_signal("player_died")
+
 func take_damage(amount):
 	self.health -= amount
 	if (self.health <= 0):
-		# TODO: play death animation
-		self.emit_signal("player_died")
+		self.set_process(false)
+		self.set_physics_process(false)
+		animator.play("Die")
