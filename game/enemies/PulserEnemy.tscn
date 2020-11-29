@@ -42,12 +42,12 @@ surfaces/0 = {
 }
 
 [sub_resource type="CylinderShape" id=5]
-radius = 1.36078
-height = 3.30745
+margin = 0.05
+radius = 1.25
+height = 3.2
 
 [sub_resource type="Animation" id=4]
 resource_name = "Pulse"
-loop = true
 tracks/0/type = "transform"
 tracks/0/path = NodePath(".:bone")
 tracks/0/interp = 1
@@ -78,12 +78,12 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.252897, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
 shape = SubResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Skeleton")
-playback_process_mode = 0
 anims/Pulse = SubResource( 4 )
 
 [node name="Timer" type="Timer" parent="."]
+one_shot = true

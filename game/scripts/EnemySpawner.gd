@@ -20,11 +20,13 @@ var spawn_points = [
 
 var min_wait_time = 0.1
 var wait_modifier = 0.8
-var max_spawned_enemies = 20
-var max_active_projectiles = 50
+var max_spawned_enemies = 10
+var max_active_projectiles = 100
 
 func _ready():
 	randomize()
+	for spawn_point in range(0, spawn_points.size()):
+		randomize_spawner_position(spawn_point)
 	
 	timer.connect("timeout", self, "_on_timer_timeout")
 	timer.start()

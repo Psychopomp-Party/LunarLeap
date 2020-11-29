@@ -2,7 +2,7 @@ extends "res://game/scripts/Enemy.gd"
 
 onready var projectile_type = preload("res://game/enemies/DamageOrb.tscn")
 
-var min_rate_of_fire = 0.05
+var min_rate_of_fire = 0.15
 var last_direction = null
 var times_shot = 0
 
@@ -25,11 +25,19 @@ func _on_animation_finished(anim):
 		spawn_projectile(player)
 
 func _on_impact(projectile, collider):
+	if (projectile.get_parent() == null || collider.get_parent() == null):
+		pass
+	
 	for group in collider.get_groups():
-		if (group == "enemy" || group == "projectile"):
-			projectiles.remove_child(projectile)
-		elif (group == "player"):
-			collider.emit_signal("player_hit", projectile.get_damage())
+		match group:
+			"enemy":
+				projectile.get_parent().remove_child(projectile)
+			"projectile":
+				projectile.get_parent().remove_child(projectile)
+				collider.get_parent().remove_child(collider)
+			"player":
+				projectile.get_parent().remove_child(projectile)
+				collider.emit_signal("player_hit", 2)
 
 func spawn_projectile(target):
 	var direction = self.transform.origin.direction_to(target.transform.origin)
@@ -38,7 +46,7 @@ func spawn_projectile(target):
 		pass
 	
 	var projectile = projectile_type.instance()
-	projectile.transform.origin = self.transform.origin + direction
+	projectile.transform.origin = self.transform.origin + direction * 2.0
 	projectiles.add_child(projectile)
 	projectile.setup(target)
 	

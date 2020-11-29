@@ -10,10 +10,12 @@ var gravity = 10.0
 
 func _ready():
 	self.add_to_group("projectile")
+	
+	self.set_physics_process(false)
 
 func _physics_process(delta):
 	var direction = self.transform.origin.direction_to(target.transform.origin)
-	var collision = self.move_and_collide(velocity_scale * direction * delta)
+	var collision = self.move_and_collide(velocity_scale * direction * gravity * delta)
 	
 	if (collision != null && collision.collider != null):
 		self.set_physics_process(false)
@@ -21,6 +23,5 @@ func _physics_process(delta):
 
 func setup(target):
 	self.target = target
-
-func get_damage():
-	return 2
+	
+	self.set_physics_process(true)
