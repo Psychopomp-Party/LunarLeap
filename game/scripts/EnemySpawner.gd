@@ -1,11 +1,13 @@
 extends Node
 
+signal points_earned(points)
+
 onready var player = self.get_parent().get_node("Player")
 onready var moon = self.get_parent().get_node("Moon")
 onready var timer = self.get_node("Timer")
 onready var enemy_types = [
-	preload("res://game/enemies/CapsuleEnemy.tscn"),
-	preload("res://game/enemies/CubeEnemy.tscn")
+	preload("res://game/enemies/ShooterEnemy.tscn"),
+	preload("res://game/enemies/PulseEnemy.tscn")
 ]
 var spawn_points = [
 	Vector3(45.0,  0.0,  0.0),
@@ -16,11 +18,12 @@ var spawn_points = [
 	Vector3( 0.0,  0.0,-45.0)
 ]
 
-var spawn_min_wait = 0.2
+var spawn_min_wait = 0.1
 var spawn_wait_modifier = 0.025
-var max_spawned_enemies = 50
+var max_spawned_enemies = 100
 
 func _ready():
+	randomize()
 	timer.start()
 
 func _on_timer_timeout():
@@ -66,9 +69,10 @@ func randomize_spawner_position(index):
 		1 - 2 * (pow(x1, 2) + pow(x2, 2))) * 80.0 # or rand_range(60.0, 80.0)
 
 func _on_enemy_landed_on_player(enemy):
-	# TODO: play explosion animation
+	self.emit_signal("points_earned", enemy.get_point_value())
 	self.remove_child(enemy)
 
 
 func _on_enemy_kicked_by_player(enemy):
+	self.emit_signal("points_earned", enemy.get_point_value())
 	self.remove_child(enemy)

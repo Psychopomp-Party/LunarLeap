@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://game/scripts/GameInterface.gd" type="Script" id=1]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://game/fonts/Mofuji.ttf"
@@ -7,17 +9,33 @@ font_path = "res://game/fonts/Mofuji.ttf"
 size = 64
 font_data = SubResource( 1 )
 
+[sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = SubResource( 1 )
+
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelPoints" type="Label" parent="."]
+anchor_right = 1.0
+margin_top = 5.0
+custom_fonts/font = SubResource( 2 )
+text = "{POINTS}"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LabelTime" type="Label" parent="."]
 anchor_right = 1.0
-margin_top = 10.0
-custom_fonts/font = SubResource( 2 )
+margin_top = 70.0
+custom_fonts/font = SubResource( 3 )
 text = "{TIME}"
 align = 1
 valign = 1

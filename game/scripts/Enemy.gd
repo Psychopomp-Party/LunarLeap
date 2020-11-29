@@ -40,5 +40,11 @@ func _physics_process(delta):
 			elif (collider.get_class() == "KinematicBody"):
 				emit_signal("landed_on_enemy", self)
 
-func some_method():
-	print("called!")
+func get_point_value():
+	if ("Shooter" in self.name):
+		return 1
+	elif ("Pulse" in self.name):
+		return 2
+	else:
+		print("####", self.name)
+		return 0
