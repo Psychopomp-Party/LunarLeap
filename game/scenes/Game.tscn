@@ -5,13 +5,13 @@
 [ext_resource path="res://game/scripts/Game.gd" type="Script" id=3]
 [ext_resource path="res://game/textures/space.png" type="Texture" id=4]
 
-[sub_resource type="PanoramaSky" id=2]
+[sub_resource type="PanoramaSky" id=1]
 radiance_size = 1
 panorama = ExtResource( 4 )
 
-[sub_resource type="Environment" id=1]
+[sub_resource type="Environment" id=2]
 background_mode = 2
-background_sky = SubResource( 2 )
+background_sky = SubResource( 1 )
 ambient_light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
 ambient_light_sky_contribution = 0.0
 fog_color = Color( 0.654902, 0.678431, 0.698039, 1 )
@@ -32,4 +32,4 @@ pause_mode = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 pause_mode = 1
-environment = SubResource( 1 )
+environment = SubResource( 2 )

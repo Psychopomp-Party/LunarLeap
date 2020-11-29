@@ -1,12 +1,15 @@
 extends KinematicBody
 
-# NOTE: The gravity area currently affects nothing...
+signal player_died
+
 onready var gravity_area = self.get_parent().get_node("GravityModifier")
 onready var camera = self.get_node("Camera")
 onready var moon = self.get_parent().get_node("Moon")
 onready var jump_timer = self.get_node("Timer")
 onready var animator = self.get_node("AnimationPlayer")
 onready var parent = self.get_parent()
+
+var health = 10
 
 var move_speed = 25.0
 var movement = Vector3(0.0, 0.0, 0.0)
@@ -18,6 +21,7 @@ var is_walking = false
 var is_jumping = false
 
 func _ready():
+	self.add_to_group("player")
 	camera.global_transform.basis.z = -camera.global_transform.origin.direction_to(self.global_transform.origin)
 
 func _process(delta):
@@ -43,8 +47,8 @@ func _process(delta):
 		if (jump_timer.is_stopped() && !is_jumping):
 			jump_timer.start()
 			is_jumping = true
-		elif (time_left < wait_time * 0.5 && time_left > 0.0 && is_jumping):
-			movement += self.transform.basis.y * gravity_area.gravity * 2.0
+		#elif (time_left < wait_time * 0.5 && time_left > 0.0 && is_jumping):
+		#	movement += self.transform.basis.y * gravity_area.gravity * 4.0
 		elif (time_left > 0.0 && is_jumping):
 			movement += self.transform.basis.y * gravity_area.gravity * 4.0
 	
@@ -76,22 +80,33 @@ func _physics_process(delta):
 	
 	# apply gravity and enable/disable jumping
 	var velocity = movement
-	velocity += self.transform.origin.direction_to(moon.transform.origin) * gravity_area.gravity
+	#velocity += self.transform.origin.direction_to(moon.transform.origin) * gravity_area.gravity
 	if (is_jumping && self.is_on_floor()):
 		jump_timer.stop()
 		is_jumping = false
+	elif (is_jumping && jump_timer.get_time_left() == 0.0):
+		velocity += self.transform.origin.direction_to(moon.transform.origin) * gravity_area.gravity * 4.0
 	
 	# finally move the player
 	velocity = self.move_and_slide(velocity, self.transform.basis.y, false, 4, 1.0)
 	
 	# rotate
-	if (is_jumping):
-		self.rotate(self.transform.basis.y, player_rotation * 0.5 * delta)
-	else:
-		self.rotate(self.transform.basis.y, player_rotation * delta)
+	self.rotate(self.transform.basis.y, player_rotation * delta)
+	#if (is_jumping):
+	#	self.rotate(self.transform.basis.y, player_rotation * 0.5 * delta)
+	#else:
+	#	self.rotate(self.transform.basis.y, player_rotation * delta)
 	
 	# check collision
 	for i in range(0, self.get_slide_count()):
 		var collider = self.get_slide_collision(i).collider
-		if (collider != moon):
+		if (collider.is_in_group("enemy")):
 			collider.emit_signal("kicked_by_player", collider)
+		elif (collider.is_in_group("projectile")):
+			print("hit by projectile!")
+
+func take_damage(amount):
+	self.health -= amount
+	if (self.health <= 0):
+		# TODO: play death animation
+		self.emit_signal("player_died")

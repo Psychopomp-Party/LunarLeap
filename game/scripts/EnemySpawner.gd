@@ -20,7 +20,7 @@ var spawn_points = [
 
 var spawn_min_wait = 0.1
 var spawn_wait_modifier = 0.025
-var max_spawned_enemies = 100
+var max_spawned_enemies = 20
 
 func _ready():
 	randomize()
@@ -30,7 +30,7 @@ func _on_timer_timeout():
 	# gradually speed up enemy spawn rate
 	if (timer.get_wait_time() > spawn_min_wait):
 		var old_wait_time = timer.get_wait_time()
-		timer.set_wait_time(old_wait_time - (old_wait_time * spawn_wait_modifier))
+		timer.set_wait_time(old_wait_time * 0.8)
 	
 	# spawn an enemy
 	var enemy_count = self.get_child_count() - 1
@@ -52,8 +52,6 @@ func _on_timer_timeout():
 		
 		# move the spawner a bit
 		randomize_spawner_position(spawner_index)
-		
-		print("Enemy count: ", self.get_child_count() - 1)
 
 func randomize_spawner_position(index):
 	var x1 = rand_range(-1.0, 1.0)

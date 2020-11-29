@@ -11,6 +11,8 @@ signal landed_on_moon(me)
 signal kicked_by_player(me)
 
 func spawn(player_id, moon_id, moon_origin):
+	self.add_to_group("enemy")
+	
 	self.player_id = player_id
 	self.moon_id = moon_id
 	self.moon_origin = moon_origin
@@ -36,8 +38,9 @@ func _physics_process(delta):
 				emit_signal("landed_on_player", self)
 			elif (collider.get_instance_id() == self.moon_id):
 				emit_signal("landed_on_moon", self)
-				self.has_gravity = false
-			elif (collider.get_class() == "KinematicBody"):
+				#self.has_gravity = false
+				self.set_physics_process(false)
+			elif (collider.is_in_group("enemy")):
 				emit_signal("landed_on_enemy", self)
 
 func get_point_value():
