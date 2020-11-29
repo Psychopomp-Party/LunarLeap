@@ -67,12 +67,12 @@ bind/14/name = "shin_r"
 bind/14/bone = -1
 bind/14/pose = Transform( 0.425919, -0.127298, 0.0178474, -0.11644, -0.465419, 0.0667318, 0.000356731, 0.0704785, 0.472913, 0.14981, -0.631141, 0.112309 )
 
-[sub_resource type="CapsuleShape" id=3]
+[sub_resource type="CapsuleShape" id=7]
 margin = 1.0
 radius = 1.25
 height = 2.76761
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=8]
 tracks/0/type = "transform"
 tracks/0/path = NodePath(".:head")
 tracks/0/interp = 1
@@ -179,7 +179,7 @@ tracks/14/imported = true
 tracks/14/enabled = true
 tracks/14/keys = PoolRealArray( 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0.0666667, 1, 0, -0.0395248, 0.0189784, 0, 0, 0, 1, 1, 1, 1, 0.2, 1, 0, -0.221579, 0.0910966, 0, 0, 0, 1, 1, 1, 1, 0.266667, 1, 0, -0.294796, 0.10186, 0.0187788, 0, 0, 0.999824, 1, 1, 1, 0.333333, 1, 0, -0.336725, 0.097031, 0.169034, 0, 0, 0.98561, 1, 1, 1, 0.4, 1, 0, -0.35428, 0.0889301, 0.423396, 0, 0, 0.905945, 1, 1, 1, 0.466667, 1, 0, -0.359648, 0.0826986, 0.594235, 0, 0, 0.804291, 1, 1, 1, 0.533333, 1, 0, -0.359938, 0.0814523, 0.624018, 0, 0, 0.78141, 1, 1, 1, 1, 1, 0, -0.359938, 0.0814523, 0.624018, 0, 0, 0.78141, 1, 1, 1 )
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=9]
 tracks/0/type = "transform"
 tracks/0/path = NodePath(".:head")
 tracks/0/interp = 1
@@ -484,17 +484,16 @@ material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.561703, -0.0885959 )
-shape = SubResource( 3 )
+shape = SubResource( 7 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 10, 10 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-pause_mode = 2
 root_node = NodePath("../Skeleton")
 playback_process_mode = 0
-anims/Die = SubResource( 4 )
-anims/Jump = SubResource( 5 )
+anims/Die = SubResource( 8 )
+anims/Jump = SubResource( 9 )
 anims/Walk = SubResource( 6 )
 
 [node name="Timer" type="Timer" parent="."]

@@ -1,7 +1,8 @@
 extends Control
 
-onready var label_time = self.get_node("LabelTime")
 onready var label_points = self.get_node("LabelPoints")
+onready var label_time = self.get_node("LabelTime")
+onready var label_note = self.get_node("LabelNote")
 onready var life_bar = self.get_node("ProgressBar")
 onready var audio_player = self.get_node("AudioStreamPlayer")
 onready var tree = self.get_tree()
@@ -11,6 +12,7 @@ var elapsed_time = 0.0
 func _ready():
 	label_points.set_text("0")
 	label_time.set_text("0:00")
+	label_note.set_text("")
 	life_bar.set_value(10.0)
 	
 	audio_player.set_volume_db(-10.0)

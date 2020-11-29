@@ -26,6 +26,7 @@ var gravity = 10.0
 
 func _ready():
 	self.add_to_group("player")
+	self.pause_mode = PAUSE_MODE_INHERIT
 	
 	self.connect("player_hit", self, "_on_player_hit")
 	
@@ -117,6 +118,7 @@ func _on_player_hit(damage):
 	if (health <= 0):
 		self.set_process(false)
 		self.set_physics_process(false)
+		self.pause_mode = PAUSE_MODE_PROCESS
 		animator.play("Die")
 		
 		self.emit_signal("player_died")

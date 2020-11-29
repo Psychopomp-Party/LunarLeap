@@ -55,4 +55,4 @@ func spawn_projectile(target):
 	last_direction = direction
 
 func get_points():
-	return 1
+	return 5
