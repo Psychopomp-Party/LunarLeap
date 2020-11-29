@@ -6,8 +6,8 @@ onready var projectiles = self.get_node("Projectiles")
 onready var moon = self.get_parent().get_node("Moon")
 onready var timer = self.get_node("Timer")
 onready var enemy_types = [
-	preload("res://game/enemies/ShooterEnemy.tscn"),
-	preload("res://game/enemies/PulserEnemy.tscn")
+	preload("res://game/scenes/PulserEnemy.tscn"),
+	preload("res://game/scenes/ThumperEnemy.tscn")
 ]
 var spawn_points = [
 	Vector3(45.0,  0.0,  0.0),

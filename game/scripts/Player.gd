@@ -16,7 +16,7 @@ var move_speed = 30.0
 var jump_speed = 30.0
 
 var player_rotation = 0.0
-var rotation_amount = 2.0
+var rotation_amount = 1.75
 
 var moon_origin = Vector3(0.0, 0.0, 0.0)
 
