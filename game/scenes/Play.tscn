@@ -4,8 +4,9 @@
 [ext_resource path="res://game/scripts/Player.gd" type="Script" id=2]
 
 [sub_resource type="PhysicsMaterial" id=1]
+friction = 0.0
 
-[sub_resource type="SphereShape" id=5]
+[sub_resource type="SphereShape" id=2]
 radius = 0.87913
 
 [sub_resource type="CapsuleShape" id=3]
@@ -25,7 +26,7 @@ material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="Moon"]
 transform = Transform( 50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0 )
-shape = SubResource( 5 )
+shape = SubResource( 2 )
 
 [node name="Player" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
@@ -43,17 +44,19 @@ transform = Transform( 0.667, 0, 0, 0, 0.667, 0, 0, 0, 0.667, 0, 1.333, 0 )
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.5, 0 )
 shape = SubResource( 3 )
 
-[node name="RayCast" type="RayCast" parent="Player"]
-transform = Transform( 1, 0, 0, 0, 7, 0, 0, 0, 1, 0, 0.5, 0 )
-enabled = true
-
 [node name="Camera" type="Camera" parent="Player"]
 transform = Transform( 1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 8, 5 )
+
+[node name="Timer" type="Timer" parent="Player"]
+process_mode = 0
+wait_time = 0.25
+one_shot = true
 
 [node name="GravityModifier" type="Area" parent="."]
 space_override = 3
 gravity_point = true
 gravity_vec = Vector3( 0, 0, 0 )
+gravity = 8.0
 
 [node name="CollisionShape" type="CollisionShape" parent="GravityModifier"]
 transform = Transform( 75, 0, 0, 0, 75, 0, 0, 0, 75, 0, 0, 0 )

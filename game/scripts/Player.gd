@@ -1,38 +1,43 @@
 extends KinematicBody
 
+# NOTE: The gravity area currently affects nothing...
 onready var gravity_area = self.get_parent().get_node("GravityModifier")
 onready var camera = self.get_node("Camera")
-onready var ray = self.get_node("RayCast")
 onready var moon = self.get_parent().get_node("Moon")
+onready var jump_timer = self.get_node("Timer")
 
 var move_speed = 25.0
-var velocity = Vector3(0.0, 0.0, 0.0)
+var movement = Vector3(0.0, 0.0, 0.0)
 
 var rotation_speed = 2.5
 var player_rotation = 0.0
 
-var jump_speed = 25.0
 var is_jumping = false
 
 func _ready():
 	camera.global_transform.basis.z = -camera.global_transform.origin.direction_to(self.global_transform.origin)
 
 func _process(delta):
-	var movement = Vector3(0.0, 0.0, 0.0)
-	var rot = 0.0
+	movement = Vector3(0.0, 0.0, 0.0)
+	player_rotation = 0.0
 	if (Input.is_action_pressed("player_move_forward")):
 		movement += -self.transform.basis.z * move_speed
 	if (Input.is_action_pressed("player_move_backward")):
 		movement += self.transform.basis.z * move_speed
-	if (Input.is_action_pressed("player_move_left")):
-		rot += rotation_speed
-	if (Input.is_action_pressed("player_move_right")):
-		rot += -rotation_speed
 	if (Input.is_action_pressed("player_move_jump")):
-		pass
-	
-	velocity = movement
-	player_rotation = rot
+		var time_left = jump_timer.get_time_left()
+		var wait_time = jump_timer.get_wait_time()
+		if (jump_timer.is_stopped() && !is_jumping):
+			jump_timer.start()
+			is_jumping = true
+		elif (time_left < wait_time * 0.5 && time_left > 0.0 && is_jumping):
+			movement += self.transform.basis.y * gravity_area.gravity * 2.0
+		elif (time_left > 0.0 && is_jumping):
+			movement += self.transform.basis.y * gravity_area.gravity * 4.0
+	if (Input.is_action_pressed("player_move_left")):
+		player_rotation += rotation_speed
+	if (Input.is_action_pressed("player_move_right")):
+		player_rotation += -rotation_speed
 
 func _physics_process(delta):
 	
@@ -48,16 +53,18 @@ func _physics_process(delta):
 		self.transform.basis = self.transform.basis.rotated(axis, phi)
 		self.transform = self.transform.orthonormalized()
 	
-	# apply gravity if not currently colliding with the moon
-	# NOTE: this will probably only be necessary once jumping is implemented
-	if (ray.is_colliding()):
-		#velocity += -ray.get_collision_normal() * 10.
-		pass
-	else:
-		#velocity += moon_direction * 10.0
-		pass
+	# apply gravity and enable/disable jumping
+	var velocity = movement
+	if (!self.is_on_floor()):
+		velocity += self.transform.origin.direction_to(moon.transform.origin) * gravity_area.gravity
+	elif (self.is_on_floor()):
+		jump_timer.stop()
+		is_jumping = false
 	
-	self.move_and_collide(velocity * delta)
+	velocity = self.move_and_slide(velocity, self.transform.basis.y)
 	
 	# rotate
-	self.rotate(self.transform.basis.y, player_rotation * delta)
+	if (self.is_on_floor()):
+		self.rotate(self.transform.basis.y, player_rotation * delta)
+	else:
+		self.rotate(self.transform.basis.y, player_rotation * 0.1 * delta)
