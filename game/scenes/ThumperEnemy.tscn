@@ -55,13 +55,6 @@ tracks/0/loop_wrap = true
 tracks/0/imported = true
 tracks/0/enabled = true
 tracks/0/keys = PoolRealArray( 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0.0666667, 1, 0, -0.573993, 0, 0, 0, 0, 1, 1, 1, 1, 0.2, 1, 0, -2.75517, 0, 0, 0, 0, 1, 1, 1, 1, 0.266667, 1, 0, -3.08851, 0, 0, 0, 0, 1, 1, 1, 1, 0.333333, 1, 0, -2.99327, 0, 0, 0, 0, 1, 1, 1, 1, 0.4, 1, 0, -2.77302, 0, 0, 0, 0, 1, 1, 1, 1, 0.533333, 1, 0, -2.10549, 0, 0, 0, 0, 1, 1, 1, 1, 0.866667, 1, 0, -0.261911, 0, 0, 0, 0, 1, 1, 1, 1, 0.933333, 1, 0, -0.0748317, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 )
-tracks/1/type = "transform"
-tracks/1/path = NodePath("Armature")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = true
-tracks/1/enabled = true
-tracks/1/keys = PoolRealArray( 0, 1, 0, 1.27097, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1.27097, 0, 0, 0, 0, 1, 1, 1, 1 )
 
 [node name="ThumperEnemy" type="KinematicBody"]
 script = ExtResource( 1 )

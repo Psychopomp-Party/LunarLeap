@@ -58,8 +58,8 @@ func _on_timer_timeout():
 		randomize_spawner_position(spawner_index)
 	
 	# clean up projectiles
-	if (projectiles.get_child_count() >= max_active_projectiles):
-		projectiles.remove_child(projectiles.get_child(0))
+	#if (projectiles.get_child_count() >= max_active_projectiles):
+	#	projectiles.remove_child(projectiles.get_child(0))
 
 func _on_enemy_kicked(enemy):
 	enemies.remove_child(enemy)

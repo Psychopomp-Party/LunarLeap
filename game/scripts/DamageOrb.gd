@@ -1,6 +1,7 @@
 extends KinematicBody
 
 signal impact(projectile, collider)
+signal cleanup(projectile)
 
 var target = null
 
@@ -17,6 +18,11 @@ func _ready():
 
 func _physics_process(delta):
 	self.orient()
+	
+	if (self.transform.origin.distance_to(target.transform.origin) > 40.0):
+		self.emit_signal("cleanup", self)
+		self.set_physics_process(false)
+		return
 	
 	# physics
 	var velocity = -self.transform.basis.z * velocity_scale

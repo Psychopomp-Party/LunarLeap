@@ -39,6 +39,9 @@ func _on_impact(projectile, collider):
 				projectile.get_parent().remove_child(projectile)
 				collider.emit_signal("player_hit", 2)
 
+func _on_projectile_cleanup(projectile):
+	projectile.get_parent().remove_child(projectile)
+
 func spawn_projectile(target):
 	var direction = self.transform.origin.direction_to(target.transform.origin)
 	if (last_direction == null):
@@ -51,6 +54,7 @@ func spawn_projectile(target):
 	projectile.setup(target)
 	
 	projectile.connect("impact", self, "_on_impact")
+	projectile.connect("cleanup", self, "_on_projectile_cleanup")
 	
 	last_direction = direction
 

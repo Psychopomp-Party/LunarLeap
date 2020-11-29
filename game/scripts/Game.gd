@@ -1,9 +1,9 @@
 extends Node
 
 onready var audio_player = self.get_node("GameInterface/AudioStreamPlayer")
+onready var label_points = self.get_node("GameInterface/VBoxContainer/LabelPoints")
+onready var label_time = self.get_node("GameInterface/VBoxContainer/LabelTime")
 onready var label_note = self.get_node("GameInterface/LabelNote")
-onready var label_time = self.get_node("GameInterface/LabelTime")
-onready var label_points = self.get_node("GameInterface/LabelPoints")
 onready var life_bar = self.get_node("GameInterface/ProgressBar")
 onready var enemies = self.get_node("GameScene/EnemySpawner/Enemies")
 onready var player = self.get_node("GameScene/Player")

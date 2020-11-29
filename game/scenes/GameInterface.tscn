@@ -27,19 +27,30 @@ content_margin_left = 0.0
 content_margin_right = 0.0
 content_margin_top = 0.0
 content_margin_bottom = 0.0
-bg_color = Color( 0.682353, 0.0313726, 0, 1 )
-border_width_left = 1
+bg_color = Color( 0.682353, 0.0313726, 0, 0.878431 )
+border_width_left = 3
 border_width_top = 1
-border_width_bottom = 1
+border_width_right = 3
+border_width_bottom = 3
 border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.156863, 0.156863, 0.156863, 1 )
-border_width_left = 1
+bg_color = Color( 0.156863, 0.156863, 0.156863, 0.784314 )
+border_width_left = 3
 border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
+border_width_right = 3
+border_width_bottom = 3
 border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="GameInterface" type="Control"]
 anchor_right = 1.0
@@ -49,9 +60,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelPoints" type="Label" parent="."]
-anchor_right = 1.0
-margin_top = 5.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -128.0
+margin_top = 8.0
+margin_right = 128.0
+margin_bottom = 101.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelPoints" type="Label" parent="VBoxContainer"]
+margin_right = 256.0
+margin_bottom = 64.0
 custom_fonts/font = SubResource( 2 )
 text = "{POINTS}"
 align = 1
@@ -60,9 +83,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelTime" type="Label" parent="."]
-anchor_right = 1.0
-margin_top = 70.0
+[node name="LabelTime" type="Label" parent="VBoxContainer"]
+margin_top = 68.0
+margin_right = 256.0
+margin_bottom = 101.0
 custom_fonts/font = SubResource( 3 )
 text = "{TIME}"
 align = 1
@@ -90,10 +114,12 @@ __meta__ = {
 }
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.02
+anchor_top = 0.99
+anchor_right = 0.98
+anchor_bottom = 0.99
 margin_top = -16.0
+size_flags_horizontal = 5
 custom_styles/fg = SubResource( 4 )
 custom_styles/bg = SubResource( 5 )
 max_value = 10.0
