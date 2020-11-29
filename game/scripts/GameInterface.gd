@@ -2,6 +2,7 @@ extends Control
 
 onready var label_time = self.get_node("LabelTime")
 onready var label_points = self.get_node("LabelPoints")
+onready var life_bar = self.get_node("ProgressBar")
 onready var tree = self.get_tree()
 
 var elapsed_time = 0.0
@@ -9,6 +10,7 @@ var elapsed_time = 0.0
 func _ready():
 	label_points.set_text("0")
 	label_time.set_text("0:00")
+	life_bar.set_value(10.0)
 
 func _process(delta):
 	elapsed_time += delta
