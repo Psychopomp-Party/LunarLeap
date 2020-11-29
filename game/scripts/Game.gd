@@ -6,7 +6,6 @@ onready var enemy_handler = self.get_node("GameScene/Enemies")
 onready var player = self.get_node("GameScene/Player")
 onready var tree = self.get_tree()
 
-var elapsed_time = 0.0
 var points = 0
 
 func _ready():
@@ -14,10 +13,6 @@ func _ready():
 	player.connect("player_died", self, "_on_player_death")
 
 func _process(delta):
-	if (!tree.paused):
-		elapsed_time += delta
-		label_time.set_text("%.2f" % elapsed_time)
-	
 	if (Input.is_action_just_pressed("game_pause") && player.health > 0):
 		tree.paused = !tree.paused
 		label_time.set_text("PAUSED")

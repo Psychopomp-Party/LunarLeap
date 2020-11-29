@@ -20,7 +20,7 @@ adjustment_brightness = 1.49
 adjustment_contrast = 2.48
 adjustment_saturation = 3.97
 
-[node name="Node" type="Node"]
+[node name="Game" type="Node"]
 pause_mode = 2
 script = ExtResource( 3 )
 

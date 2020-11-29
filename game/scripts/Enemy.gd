@@ -1,6 +1,6 @@
 extends KinematicBody
 
-onready var animator = self.get_node("Timer")
+onready var animator = self.get_node("AnimationPlayer")
 onready var timer = self.get_node("Timer")
 
 var player_id = null
@@ -32,7 +32,7 @@ func spawn(player_id, moon_id, moon_origin):
 
 func _physics_process(delta):
 	if (has_gravity):
-		var velocity = self.transform.origin.direction_to(moon_origin) * 9.8
+		var velocity = self.transform.origin.direction_to(moon_origin) * 10
 		var collision = self.move_and_collide(velocity * delta)
 		
 		if (collision != null && self.player_id != null):
@@ -49,7 +49,7 @@ func _physics_process(delta):
 func get_point_value():
 	if ("Shooter" in self.name):
 		return 1
-	elif ("Pulse" in self.name):
+	elif ("Pulser" in self.name):
 		return 2
 	else:
 		print("####", self.name)

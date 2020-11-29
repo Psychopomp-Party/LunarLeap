@@ -22,7 +22,7 @@ var spawn_points = [
 var spawn_min_wait = 0.1
 var spawn_wait_modifier = 0.025
 var max_spawned_enemies = 20
-var max_active_projectiles = 100
+var max_active_projectiles = 50
 
 func _ready():
 	randomize()

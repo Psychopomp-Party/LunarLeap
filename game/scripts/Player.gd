@@ -50,7 +50,7 @@ func _process(delta):
 			is_jumping = true
 			animator.play("Jump")
 		elif (time_left > 0.0 && is_jumping):
-			movement += self.transform.basis.y * gravity_area.gravity * 4.0
+			movement += self.transform.basis.y * gravity_area.gravity * 16.0
 	
 	# turning
 	if (Input.is_action_pressed("player_move_left")):
@@ -81,7 +81,7 @@ func _physics_process(delta):
 		velocity += self.transform.origin.direction_to(moon.transform.origin) * gravity_area.gravity * 4.0
 	
 	# finally move the player
-	velocity = self.move_and_slide(velocity, self.transform.basis.y, false, 4, 1.0)
+	velocity = self.move_and_slide(velocity, self.transform.basis.y, false, 1, 1.0)
 	
 	# rotate
 	self.rotate(self.transform.basis.y, player_rotation * delta)
