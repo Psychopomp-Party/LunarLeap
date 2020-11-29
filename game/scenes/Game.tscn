@@ -4,12 +4,12 @@
 [ext_resource path="res://game/scenes/GameScene.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/scenes/Game.gd" type="Script" id=3]
 
-[sub_resource type="ProceduralSky" id=2]
+[sub_resource type="ProceduralSky" id=1]
 sun_energy = 0.0
 
-[sub_resource type="Environment" id=1]
+[sub_resource type="Environment" id=2]
 background_mode = 1
-background_sky = SubResource( 2 )
+background_sky = SubResource( 1 )
 ambient_light_color = Color( 0.501961, 0.501961, 0.501961, 1 )
 ambient_light_sky_contribution = 0.0
 adjustment_brightness = 1.49
@@ -25,4 +25,4 @@ script = ExtResource( 3 )
 script = null
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 1 )
+environment = SubResource( 2 )
