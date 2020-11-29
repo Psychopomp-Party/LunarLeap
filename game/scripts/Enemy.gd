@@ -1,5 +1,8 @@
 extends KinematicBody
 
+onready var animator = self.get_node("Timer")
+onready var timer = self.get_node("Timer")
+
 var player_id = null
 var moon_id = null
 var moon_origin = Vector3(0.0, 0.0, 0.0)

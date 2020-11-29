@@ -21,7 +21,7 @@ var is_jumping = false
 
 func _ready():
 	self.add_to_group("player")
-	animator.connect("animation_finished", self, "_on_animation_finished")
+	#animator.connect("animation_finished", self, "_on_animation_finished")
 	camera.global_transform.basis.z = -camera.global_transform.origin.direction_to(self.global_transform.origin)
 
 func _process(delta):
@@ -94,18 +94,19 @@ func _physics_process(delta):
 		elif (collider.is_in_group("projectile")):
 			print("hit by projectile!")
 
-func _on_animation_finished(name):
-	match name:
-		"Walk":
-			pass
-		"Jump":
-			pass
-		"Die":
-			self.emit_signal("player_died")
-
 func take_damage(amount):
 	self.health -= amount
 	if (self.health <= 0):
 		self.set_process(false)
 		self.set_physics_process(false)
+		self.emit_signal("player_died")
 		animator.play("Die")
+
+#func _on_animation_finished(name):
+#	match name:
+#		"Walk":
+#			pass
+#		"Jump":
+#			pass
+#		"Die":
+#			self.emit_signal("player_died")

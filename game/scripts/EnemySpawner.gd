@@ -3,11 +3,12 @@ extends Node
 signal points_earned(points)
 
 onready var player = self.get_parent().get_node("Player")
+onready var projectiles = self.get_node("Projectiles")
 onready var moon = self.get_parent().get_node("Moon")
 onready var timer = self.get_node("Timer")
 onready var enemy_types = [
 	preload("res://game/enemies/ShooterEnemy.tscn"),
-	preload("res://game/enemies/PulseEnemy.tscn")
+	preload("res://game/enemies/PulserEnemy.tscn")
 ]
 var spawn_points = [
 	Vector3(45.0,  0.0,  0.0),
@@ -21,6 +22,7 @@ var spawn_points = [
 var spawn_min_wait = 0.1
 var spawn_wait_modifier = 0.025
 var max_spawned_enemies = 20
+var max_active_projectiles = 100
 
 func _ready():
 	randomize()
@@ -52,6 +54,10 @@ func _on_timer_timeout():
 		
 		# move the spawner a bit
 		randomize_spawner_position(spawner_index)
+	
+	# keep active projectiles low
+	if (projectiles.get_child_count() >= max_active_projectiles):
+		projectiles.remove_child(projectiles.get_child(0))
 
 func randomize_spawner_position(index):
 	var x1 = rand_range(-1.0, 1.0)
