@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://game/meshes/sphere.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://game/scripts/Player.gd" type="Script" id=2]
+[ext_resource path="res://game/scripts/EnemySpawner.gd" type="Script" id=3]
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.0
@@ -29,7 +30,7 @@ transform = Transform( 50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0 )
 shape = SubResource( 2 )
 
 [node name="Player" type="KinematicBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 45, 5 )
 script = ExtResource( 2 )
 
 [node name="CSGCombiner" type="CSGCombiner" parent="Player"]
@@ -59,5 +60,12 @@ gravity_vec = Vector3( 0, 0, 0 )
 gravity = 8.0
 
 [node name="CollisionShape" type="CollisionShape" parent="GravityModifier"]
-transform = Transform( 75, 0, 0, 0, 75, 0, 0, 0, 75, 0, 0, 0 )
+transform = Transform( 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0 )
 shape = SubResource( 4 )
+
+[node name="Enemies" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Timer" type="Timer" parent="Enemies"]
+process_mode = 0
+[connection signal="timeout" from="Enemies/Timer" to="Enemies" method="_on_timer_timeout"]
