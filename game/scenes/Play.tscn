@@ -18,19 +18,18 @@ margin = 1.0
 [node name="Spatial" type="Spatial"]
 
 [node name="Moon" type="StaticBody" parent="."]
+transform = Transform( 33, 0, 0, 0, 33, 0, 0, 0, 33, 0, 0, 0 )
 physics_material_override = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Moon"]
-transform = Transform( 50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0 )
 mesh = ExtResource( 1 )
 material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="Moon"]
-transform = Transform( 50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0 )
 shape = SubResource( 2 )
 
 [node name="Player" type="KinematicBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 45, 5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 5 )
 script = ExtResource( 2 )
 
 [node name="CSGCombiner" type="CSGCombiner" parent="Player"]
