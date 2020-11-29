@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://textures/button_play_normal.png" type="Texture" id=1]
-[ext_resource path="res://textures/button_play_hover.png" type="Texture" id=2]
+[ext_resource path="res://game/textures/button_play_normal.png" type="Texture" id=1]
+[ext_resource path="res://game/textures/button_play_hover.png" type="Texture" id=2]
+
 
 [node name="Spatial" type="Control"]
 anchor_right = 1.0
