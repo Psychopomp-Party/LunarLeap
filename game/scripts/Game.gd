@@ -38,6 +38,9 @@ func _process(delta):
 	
 	if (Input.is_action_just_pressed("toggle_fullscreen")):
 		OS.window_fullscreen = !OS.window_fullscreen
+	
+	if (Input.is_action_just_pressed("game_quit") && tree.paused):
+		tree.quit()
 
 func _on_update_player_health(health):
 	life_bar.set_value(health)
