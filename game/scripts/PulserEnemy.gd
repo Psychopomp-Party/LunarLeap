@@ -3,12 +3,7 @@ extends "res://game/scripts/Enemy.gd"
 onready var projectile_type = preload("res://game/scenes/DamageOrbBlue.tscn")
 
 var min_rate_of_fire = 0.15
-var last_direction = null
 var times_shot = 0
-
-func _ready():
-	animator.connect("animation_finished", self, "_on_animation_finished")
-	timer.connect("timeout", self, "_on_timer_timeout")
 
 func _on_timer_timeout():
 	if (player == null):
@@ -22,7 +17,7 @@ func _on_timer_timeout():
 
 func _on_animation_finished(anim):
 	if (anim == "Shoot"):
-		spawn_projectile(player)
+		spawn_projectile(player, projectile_type)
 
 func _on_impact(projectile, collider):
 	if (projectile.get_parent() == null || collider.get_parent() == null):
@@ -38,25 +33,6 @@ func _on_impact(projectile, collider):
 			"player":
 				projectile.get_parent().remove_child(projectile)
 				collider.emit_signal("player_hit", 2)
-
-func _on_projectile_cleanup(projectile):
-	projectile.get_parent().remove_child(projectile)
-
-func spawn_projectile(target):
-	var direction = self.transform.origin.direction_to(target.transform.origin)
-	if (last_direction == null):
-		last_direction = direction
-		pass
-	
-	var projectile = projectile_type.instance()
-	projectile.transform.origin = self.transform.origin + direction * 2.0
-	projectiles.add_child(projectile)
-	projectile.setup(target)
-	
-	projectile.connect("impact", self, "_on_impact")
-	projectile.connect("cleanup", self, "_on_projectile_cleanup")
-	
-	last_direction = direction
 
 func get_points():
 	return 5

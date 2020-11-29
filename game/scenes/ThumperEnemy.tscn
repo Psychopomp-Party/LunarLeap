@@ -47,7 +47,7 @@ radius = 1.25
 height = 3.2
 
 [sub_resource type="Animation" id=5]
-resource_name = "Pulse"
+resource_name = "Shoot"
 tracks/0/type = "transform"
 tracks/0/path = NodePath("../Skeleton:bone")
 tracks/0/interp = 1
@@ -83,8 +83,7 @@ shape = SubResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Skeleton")
-playback_process_mode = 0
-anims/Pulse = SubResource( 5 )
+anims/Shoot = SubResource( 5 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

@@ -21,7 +21,7 @@ var spawn_points = [
 var min_wait_time = 0.1
 var wait_modifier = 0.8
 var max_spawned_enemies = 10
-var max_active_projectiles = 100
+var max_active_projectiles = 150
 
 func _ready():
 	randomize()
@@ -58,8 +58,11 @@ func _on_timer_timeout():
 		randomize_spawner_position(spawner_index)
 	
 	# clean up projectiles
-	#if (projectiles.get_child_count() >= max_active_projectiles):
-	#	projectiles.remove_child(projectiles.get_child(0))
+	if (projectiles.get_child_count() >= max_active_projectiles):
+		for projectile in projectiles.get_children():
+			if (projectile.transform.origin.distance_to(player.transform.origin) >= 40.0):
+				projectile.set_physics_process(false)
+				projectiles.remove_child(projectile)
 
 func _on_enemy_kicked(enemy):
 	enemies.remove_child(enemy)

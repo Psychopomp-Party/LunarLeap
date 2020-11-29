@@ -6,7 +6,7 @@ signal cleanup(projectile)
 var target = null
 
 var velocity_scale = 15.0
-var gravity_scale = velocity_scale * 1.2
+var gravity_scale = velocity_scale * 10.0
 var gravity_point = Vector3.ZERO
 var initial_velocity = Vector3.ZERO
 var initial_position = Vector3.ZERO
@@ -19,11 +19,6 @@ func _ready():
 func _physics_process(delta):
 	self.orient()
 	
-	if (self.transform.origin.distance_to(target.transform.origin) > 40.0):
-		self.emit_signal("cleanup", self)
-		self.set_physics_process(false)
-		return
-	
 	# physics
 	var velocity = -self.transform.basis.z * velocity_scale
 	velocity += self.transform.origin.direction_to(gravity_point) * gravity_scale
@@ -34,6 +29,10 @@ func _physics_process(delta):
 		for group in collider.get_groups():
 			if (group == "player"):
 				self.emit_signal("impact", self, collider)
+	
+	# can get deleted
+	if (self.transform.origin.distance_to(target.transform.origin) >= 60.0):
+		self.emit_signal("cleanup", self)
 
 func setup(target):
 	self.target = target

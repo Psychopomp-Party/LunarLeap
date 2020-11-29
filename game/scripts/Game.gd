@@ -16,9 +16,11 @@ func _ready():
 	player.connect("update_player_health", self, "_on_update_player_health")
 	player.connect("player_died", self, "_on_player_death")
 	player.connect("enemy_kicked", self, "_on_enemy_kicked")
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func _process(delta):
-	if (Input.is_action_just_pressed("game_pause") && player.health > 0):
+	if (Input.is_action_just_pressed("toggle_pause") && player.health > 0):
 		tree.paused = !tree.paused
 		label_note.visible = !label_note.visible
 		if (tree.paused):
@@ -33,6 +35,9 @@ func _process(delta):
 		label_note.set_text("RESTARTING...")
 		tree.reload_current_scene()
 		randomize()
+	
+	if (Input.is_action_just_pressed("toggle_fullscreen")):
+		OS.window_fullscreen = !OS.window_fullscreen
 
 func _on_update_player_health(health):
 	life_bar.set_value(health)
