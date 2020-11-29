@@ -58,12 +58,19 @@ func _on_timer_timeout():
 		randomize_spawner_position(spawner_index)
 	
 	# clean up projectiles
-	# TODO: try to clean up only a few out of view, use `VisibilityNotifier`s
-	if (projectiles.get_child_count() >= max_active_projectiles):
+	if (projectiles.get_child_count() >= 100):
+		var total_cleaned = 0
 		for projectile in projectiles.get_children():
-			if (projectile.transform.origin.distance_to(player.transform.origin) >= 40.0):
+			if (!projectile.is_visible()):
 				projectile.set_physics_process(false)
 				projectiles.remove_child(projectile)
+				total_cleaned += 1
+				
+				if (total_cleaned >= 20):
+					break
+			#if (projectile.transform.origin.distance_to(player.transform.origin) >= 40.0):
+			#	projectile.set_physics_process(false)
+			#	projectiles.remove_child(projectile)
 
 func _on_enemy_kicked(enemy):
 	enemies.remove_child(enemy)

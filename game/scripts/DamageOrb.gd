@@ -3,6 +3,8 @@ extends KinematicBody
 signal impact(projectile, collider)
 signal cleanup(projectile)
 
+onready var visibility_notifier = self.get_node("VisibilityNotifier")
+
 var target = null
 
 var velocity_scale = 15.0
@@ -53,3 +55,6 @@ func orient():
 		axis = axis.normalized()
 		self.transform.basis = self.transform.basis.rotated(axis, phi)
 		self.transform = self.transform.orthonormalized()
+
+func is_visible():
+	return visibility_notifier.is_on_screen()
